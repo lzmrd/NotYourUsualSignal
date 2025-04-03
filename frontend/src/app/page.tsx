@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { FaChartLine, FaRobot, FaExchangeAlt, FaHistory } from 'react-icons/fa';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface AnalysisResult {
   success: boolean;
@@ -74,15 +74,21 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 p-4 sm:p-8 flex items-center justify-center">
       <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
-        <header className="mb-16 text-center">
-          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6">
-          NotYourUsualSignal
+        <header className="mb-8 text-center w-full flex justify-between items-center">
+          <h1 className="text-4xl sm:text-6xl font-bold text-white">
+            NotYourUsualSignal
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Your AI-powered crypto trading assistant that analyzes market patterns
-            and provides trading recommendations.
-          </p>
+          
+          {/* RainbowKit Connect Button */}
+          <div className="flex justify-end">
+            <ConnectButton accountStatus="address" chainStatus="icon" showBalance={false} />
+          </div>
         </header>
+
+        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-16">
+          Your AI-powered crypto trading assistant that analyzes market patterns
+          and provides trading recommendations.
+        </p>
 
         <div className="mb-16 flex justify-center">
           <motion.button
@@ -114,7 +120,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden"
+            className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden w-full"
           >
             {result.success ? (
               <div className="p-6">
