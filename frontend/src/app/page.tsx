@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaChartLine, FaRobot, FaExchangeAlt, FaHistory, FaCrown, FaWallet } from 'react-icons/fa';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+
+// Import the new components and hooks
+import UpgradeButton from './components/UpgradeButton';
+import { useBuyNft } from './hooks/buyNftHooks';
 
 interface AnalysisResult {
   success: boolean;
@@ -51,80 +54,69 @@ export default function Home() {
   const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
   
   const { address, isConnected } = useAccount();
+  const { buyNft } = useBuyNft();
 
-  // Define the fetchUserStatus function
-  // Sostituisci la funzione fetchUserStatus nel tuo file page.tsx
-// con questa versione corretta
-
-const fetchUserStatus = async () => {
-  if (!isConnected || !address) {
-    return;
-  }
-  
-  try {
-    // Chiamata diretta al backend Python su porta 8000
-    const response = await axios.get(`http://localhost:8000/api/user-status?wallet_address=${address}`);
+  const fetchUserStatus = async () => {
+    if (!isConnected || !address) {
+      return;
+    }
     
-    if (response.data) {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/user-status?wallet_address=${address}`);
+      
+      if (response.data) {
+        setUserStatus({
+          is_premium: response.data.is_premium || false,
+          remaining_analyses: response.data.remaining_analyses || 10,
+          reset_date: response.data.reset_date || null,
+          message: response.data.message || 'Free tier access'
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user status:', error);
       setUserStatus({
-        is_premium: response.data.is_premium || false,
-        remaining_analyses: response.data.remaining_analyses || 10,
-        reset_date: response.data.reset_date || null,
-        message: response.data.message || 'Free tier access'
+        is_premium: false,
+        remaining_analyses: 10, 
+        message: 'Free tier'
       });
     }
-  } catch (error) {
-    console.error('Error fetching user status:', error);
-    // Gestione fallback in caso di errore
-    setUserStatus({
-      is_premium: false,
-      remaining_analyses: 10, 
-      message: 'Free tier'
-    });
-  }
-};
+  };
 
-  // Fetch user status on component mount or when address changes
   useEffect(() => {
     if (isConnected && address) {
       fetchUserStatus();
     }
   }, [isConnected, address]);
 
-  // Sostituisci la funzione runAnalysis nel tuo file page.tsx
-// con questa versione corretta
-
-const runAnalysis = async () => {
-  if (!isConnected || !address) {
-    alert('Please connect your wallet first');
-    return;
-  }
-  
-  setIsLoading(true);
-  try {
-    // Chiamata diretta al backend Python su porta 8000
-    const response = await axios.get(`http://localhost:8000/api/analyze?wallet_address=${address}`);
+  const runAnalysis = async () => {
+    if (!isConnected || !address) {
+      alert('Please connect your wallet first');
+      return;
+    }
     
-    if (response.data.success) {
-      setResult(response.data);
-      await fetchUserStatus(); // Aggiorna lo stato dopo analisi
-    } else {
-      // Gestisci esplicitamente gli errori del backend
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8000/api/analyze?wallet_address=${address}`);
+      
+      if (response.data.success) {
+        setResult(response.data);
+        await fetchUserStatus(); // Update status after analysis
+      } else {
+        setResult({
+          success: false,
+          error: response.data.error || 'Analysis failed. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error running analysis:', error);
       setResult({
         success: false,
-        error: response.data.error || 'Analysis failed. Please try again.'
+        error: 'Network error or server unavailable. Make sure the backend is running.'
       });
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error('Error running analysis:', error);
-    setResult({
-      success: false,
-      error: 'Network error or server unavailable. Make sure the backend is running.'
-    });
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-500';
@@ -141,6 +133,11 @@ const runAnalysis = async () => {
       default:
         return 'bg-gray-500';
     }
+  };
+
+  // Handle successful premium upgrade
+  const handleSuccessfulUpgrade = () => {
+    fetchUserStatus(); // Refresh user status
   };
 
   return (
@@ -172,12 +169,10 @@ const runAnalysis = async () => {
               ) : (
                 <div className="flex items-center text-blue-400">
                   <span className="mr-2">Free tier: {userStatus.remaining_analyses} analyses left</span>
-                  <button 
-                    className="ml-2 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded"
-                    onClick={() => window.open('https://arbitrum-sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
-                  >
-                    Upgrade to Premium
-                  </button>
+                  <UpgradeButton 
+                    onSuccess={handleSuccessfulUpgrade} 
+                    className="ml-2"
+                  />
                 </div>
               )}
             </div>
@@ -209,6 +204,7 @@ const runAnalysis = async () => {
           </motion.button>
         </div>
 
+
         {(!isConnected || !address) && (
           <div className="bg-gray-800 rounded-xl p-6 mb-8 text-center">
             <FaWallet className="text-4xl mb-4 mx-auto text-yellow-400" />
@@ -227,7 +223,7 @@ const runAnalysis = async () => {
               <p className="mt-4 text-sm text-gray-400">
                 Premium access requires ownership of our NFT. 
                 <a 
-                  href="https://arbitrum-sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d"
+                  href="https://sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-blue-400 ml-1 hover:underline"
@@ -330,7 +326,7 @@ const runAnalysis = async () => {
                       </div>
                       <button 
                         className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded"
-                        onClick={() => window.open('https://arbitrum-sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
+                        onClick={() => window.open('https://sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
                       >
                         Upgrade to Premium
                       </button>
@@ -397,7 +393,7 @@ const runAnalysis = async () => {
                   <div className="mt-4">
                     <button 
                       className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded"
-                      onClick={() => window.open('https://arbitrum-sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
+                      onClick={() => window.open('https://sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
                     >
                       Upgrade to Premium
                     </button>
