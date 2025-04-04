@@ -1,37 +1,40 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { WagmiProvider } from 'wagmi';
-import { mainnet, polygon, arbitrum, base } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { arbitrumSepolia } from 'wagmi/chains';
+
 import '@rainbow-me/rainbowkit/styles.css';
 
-// Create a client
+// Get WalletConnect Project ID from environment variable
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '9750ffaf080acacd98ba2c0b3b02a5af';
+
+const wagmiConfig = getDefaultConfig({
+  appName: 'NotYourUsualSignal',
+  projectId,
+  chains: [
+    {
+      ...arbitrumSepolia,
+      iconBackground: '#0A66C2', // Arbitrum blue color
+      iconUrl: 'https://arbiscan.io/images/logo.svg', // Arbitrum logo URL
+    }
+  ],
+  initialChain: arbitrumSepolia, // Set Arbitrum Sepolia as the initial chain
+  ssr: true,
+});
+
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  
-  // Wallet Connect Project ID - you'll need to provide your own
-  const projectId = '9750ffaf080acacd98ba2c0b3b02a5af'; // Replace with your actual project ID
-  
-  const config = getDefaultConfig({
-    appName: 'NotYourUsualSignal',
-    projectId,
-    chains: [mainnet, arbitrum, base],
-    ssr: true,
-  });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
-          {mounted && children}
+        <RainbowKitProvider
+          initialChain={arbitrumSepolia} // Explicitly set initial chain
+        >
+          {children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
