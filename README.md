@@ -33,7 +33,7 @@ NotYourUsualSignal is an advanced AI-powered crypto trading assistant that provi
 ### Clone the Repository
 
 bash
-git clone https://github.com/yourusername/NotYourUsualSignal.git
+git clone https://github.com/lzmrd/NotYourUsualSignal.git
 cd NotYourUsualSignal
 
 
