@@ -9,7 +9,7 @@ import { arbitrumSepolia } from 'wagmi/chains';
 import '@rainbow-me/rainbowkit/styles.css';
 
 // Get WalletConnect Project ID from environment variable
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '9750ffaf080acacd98ba2c0b3b02a5af';
+const projectId = '9750ffaf080acacd98ba2c0b3b02a5af';
 
 const wagmiConfig = getDefaultConfig({
   appName: 'NotYourUsualSignal',
@@ -21,7 +21,7 @@ const wagmiConfig = getDefaultConfig({
       iconUrl: 'https://arbiscan.io/images/logo.svg', // Arbitrum logo URL
     }
   ],
-  initialChain: arbitrumSepolia, // Set Arbitrum Sepolia as the initial chain
+  initialChain: arbitrumSepolia,
   ssr: true,
 });
 

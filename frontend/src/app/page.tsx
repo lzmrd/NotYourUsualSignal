@@ -144,9 +144,6 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 p-4 sm:p-8 flex flex-col items-center">
       <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
         <header className="mb-8 text-center">
-          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6">
-            NotYourUsualSignal
-          </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Your AI-powered crypto trading assistant that analyzes market patterns
             and provides trading recommendations.
@@ -168,7 +165,7 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="flex items-center text-blue-400">
-                  <span className="mr-2">Free tier: {userStatus.remaining_analyses} analyses left</span>
+                  <span className="mr-2 mt-8 ">Free tier: {userStatus.remaining_analyses} analyses left</span>
                   <UpgradeButton 
                     onSuccess={handleSuccessfulUpgrade} 
                     className="ml-2"
@@ -179,7 +176,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mb-16 flex justify-center">
+        <div style={{ marginTop: '144px' }} className="mb-16 flex justify-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -189,7 +186,7 @@ export default function Home() {
           >
             {isLoading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-3 h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin -ml-1 mr-3 h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -207,9 +204,8 @@ export default function Home() {
 
         {(!isConnected || !address) && (
           <div className="bg-gray-800 rounded-xl p-6 mb-8 text-center">
-            <FaWallet className="text-4xl mb-4 mx-auto text-yellow-400" />
             <h3 className="text-xl font-semibold text-white mb-2">Connect Your Wallet</h3>
-            <p className="text-gray-300">
+            <p style={{ marginTop: '14px' }} className="text-gray-300">
               Connect your wallet to access the trading analysis features. 
               Free tier gets you 10 analyses per month - perfect for long-term traders.
             </p>
@@ -325,7 +321,7 @@ export default function Home() {
                         <p className="text-gray-300">You have {result.remaining_analyses} analyses remaining this month</p>
                       </div>
                       <button 
-                        className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded"
+                        className="ml-4 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded"
                         onClick={() => window.open('https://sepolia.arbiscan.io/address/0x7102b5937631affcc05c83ff8bd6141ed214a41d', '_blank')}
                       >
                         Upgrade to Premium
