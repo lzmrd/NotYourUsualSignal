@@ -1,0 +1,88 @@
+# NotYourUsualSignal – Business Plan
+
+## 🚨 Problem
+
+Many retail investors in the crypto space feel overwhelmed by the market’s high volatility and complexity.  
+Access to advanced technical and predictive analysis tools is often limited to professionals, while beginners are left with unreliable or overly complicated resources.  
+The constant information overload and lack of smart filters make it hard to make informed, timely investment decisions.
+
+## 💡 Solution
+
+**NotYourUsualSignal** is an AI-powered crypto trading assistant designed to democratize access to market intelligence.  
+The app leverages artificial intelligence and key technical indicators to generate real-time trading signals, offering users clear, reliable, and personalized recommendations.  
+Premium access is managed on-chain via NFTs, ensuring transparency, security, and scalability.
+
+### 🔑 Key Features
+
+- AI-based market pattern analysis  
+- Trading signals powered by RSI, MACD, EMA  
+- NFT-gated premium access on Arbitrum Sepolia  
+- Secure wallet connection (WalletConnect, MetaMask)
+
+## 🎯 Target Audience
+
+- **Emerging crypto traders**: users with basic/intermediate experience looking for smarter, user-friendly tools  
+- **Retail investors**: individuals navigating the crypto market with the support of AI  
+- **Web3 and DeFi enthusiasts**: users seeking innovative tools that blend blockchain and AI  
+- **NFT/Web3 communities**: familiar with token-gated access and wallet-based identity
+
+## 🌍 Impact (Web3 + Real World)
+
+### Web3
+
+- Introduces a **decentralized access model via NFTs**, enhancing digital ownership and interoperability  
+- Promotes the adoption of intelligent tools within DeFi by simplifying the user experience with AI  
+- Builds a **community of informed, engaged users** with potential for governance and reward mechanisms
+
+### Real World
+
+- Democratizes access to informed trading, closing the gap between experts and beginners  
+- Helps reduce **FOMO/FUD-driven decisions** through reliable and personalized insights  
+- Creates a **real-world bridge between traditional finance and decentralized ecosystems**, promoting a new tech-driven investment culture
+
+## 💰 Revenue Model
+
+**NotYourUsualSignal** monetizes through the sale of **premium NFTs**, which unlock unlimited access to the AI-powered trading assistant.  
+The model is designed to reward early adopters and create sustainable, long-term revenue through a **tiered pricing system** based on adoption milestones.
+
+### 🎟 Access Tiers
+
+- **Free Tier**
+  - Up to 10 AI-powered market analyses per month  
+  - Basic access to trading signals and limited features  
+
+- **Premium Tier (NFT Access)**
+  - Unlimited market analyses  
+  - Early access to new features  
+  - Priority support and governance-ready benefits
+
+### 🪙 NFT Pricing Strategy
+
+- **Early Adopters:**
+  - Price: **0.3 ETH**  
+  - Limited supply to incentivize first users (e.g., first 500 NFTs)  
+  - Permanent premium access  
+  - Special badge or visual NFT tiering  
+
+- **Growth Phase:**
+  - Price increases incrementally (e.g., 0.4 ETH → 0.5 ETH → 0.75 ETH, etc.)  
+  - Triggered by adoption thresholds (e.g., every 500 NFTs sold)
+
+- **Mature Phase:**
+  - Dynamic pricing based on demand and on-chain metrics  
+  - Possibility of **secondary market royalties** (e.g., 5% fee on OpenSea/resales)
+
+### 📈 Revenue Streams
+
+1. **Primary NFT Sales**  
+   - Direct revenue from the initial mint on Arbitrum One  
+
+2. **Secondary Market Royalties**  
+   - Continuous income from NFT resales via marketplaces  
+
+3. **Future Add-ons & Upgrades**  
+   - Optional modules or advanced analytics for power users  
+   - Possible integration with trading APIs or portfolio tracking tools (B2B expansion)
+
+4. **B2B Licensing (Roadmap)**  
+   - Whitelabel solutions or analytics-as-a-service for crypto funds and DAOs
